@@ -146,6 +146,12 @@ class User extends ParanoidModel<
   @Column(DataType.STRING)
   email: string | null;
 
+  /** scrypt password digest. Null until a password is set for this account. */
+  @AllowNull
+  @Column(DataType.STRING)
+  @SkipChangeset
+  passwordDigest: string | null;
+
   @NotContainsUrl
   @Length({
     min: 1,

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Client } from "@shared/types";
 import ButtonLarge from "~/components/ButtonLarge";
 import InputLarge from "~/components/InputLarge";
+import { Form as CsrfForm } from "~/components/primitives/Form";
 import PluginIcon from "~/components/PluginIcon";
 import { client } from "~/utils/ApiClient";
 import Desktop from "~/utils/Desktop";
@@ -70,6 +71,40 @@ function AuthenticationProvider(props: Props) {
     return <PasskeyAuthenticationProvider {...rest} />;
   }
 
+  if (id === "password") {
+    if (isCreate) {
+      return null;
+    }
+
+    return (
+      <Wrapper>
+        <PasswordForm method="POST" action="/auth/password">
+          <InputLarge
+            type="email"
+            name="email"
+            placeholder="me@domain.com"
+            autoFocus
+            required
+            short
+          />
+          <InputLarge
+            type="password"
+            name="password"
+            placeholder={t("Password")}
+            autoComplete="current-password"
+            minLength={8}
+            maxLength={128}
+            required
+            short
+          />
+          <ButtonLarge type="submit" fullwidth>
+            {t("Sign in")}
+          </ButtonLarge>
+        </PasswordForm>
+      </Wrapper>
+    );
+  }
+
   if (id === "email") {
     if (isCreate) {
       return null;
@@ -127,6 +162,13 @@ const Form = styled.form`
   width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+
+const PasswordForm = styled(CsrfForm)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 export default AuthenticationProvider;

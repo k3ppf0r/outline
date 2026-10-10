@@ -67,6 +67,12 @@ export default class AuthenticationHelper {
           return team?.emailSigninEnabled;
         }
 
+        // Password sign-in is only offered after a workspace exists. The
+        // first-run screen creates that workspace and its admin.
+        if (hook.value.id === "password") {
+          return !!team;
+        }
+
         // Passkeys is an exception as it does not have an authentication
         // provider using passport, instead it exists as a boolean option.
         // Only include passkeys if there is at least one passkey registered
